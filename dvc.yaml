@@ -1,3 +1,10 @@
 stages:
   preprocess:
-    cmd: \
+    cmd: python src/preprocessing.py
+    deps:
+    - data/raw/news.json
+    - data/raw/stock.csv
+    - src/preprocessing.py
+    outs:
+    - data/plots/NSEI_plot.png
+    - data/processed/NSEI_processed.csv
