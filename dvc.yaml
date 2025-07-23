@@ -1,10 +1,9 @@
 stages:
-  preprocess:
-    cmd: python src/preprocessing.py
+  ingest_data:
+    cmd: python src/ingestion.py
     deps:
-    - data/raw/news.json
-    - data/raw/stock.csv
-    - src/preprocessing.py
+      - src/ingestion.py
     outs:
-    - data/plots/NSEI_plot.png
-    - data/processed/NSEI_processed.csv
+      - src/data/raw/stock.csv
+      - src/data/raw/news.json
+      - src/data/raw/ingestion_summary.json
