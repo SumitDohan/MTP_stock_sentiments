@@ -24,3 +24,23 @@ stages:
       hash: md5
       md5: a06425713527167e80607858163bf3d5
       size: 1512
+  ingest_data:
+    cmd: python src/ingestion.py
+    deps:
+    - path: src/ingestion.py
+      hash: md5
+      md5: 02486a73df136378b6bfe0ea9a832fa9
+      size: 4118
+    outs:
+    - path: data/raw/ingestion_summary.json
+      hash: md5
+      md5: aa8ce9e0e3d6baea50ca682983e8120f
+      size: 162
+    - path: data/raw/news.json
+      hash: md5
+      md5: 8cf70f8efe1ed12745e1afe3b9893b95
+      size: 99024
+    - path: data/raw/stock.csv
+      hash: md5
+      md5: 227cec4c385d34ae91fcd7f005385e66
+      size: 1338
