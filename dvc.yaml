@@ -4,6 +4,6 @@ stages:
     deps:
       - src/ingestion.py
     outs:
-      - src/data/raw/stock.csv
-      - src/data/raw/news.json
-      - src/data/raw/ingestion_summary.json
+      - data/raw/stock.csv
+      - data/raw/news.json
+      - data/raw/ingestion_summary.json
