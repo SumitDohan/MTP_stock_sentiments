@@ -14,7 +14,7 @@ from datetime import date
 api_key = "c30d7a7f8b784290bf8106ae22ef4a2c"
 ticker = "^NSEI"
 query = "Nifty"
-start_date = "2025-07-01"
+start_date = "2025-07-15"
 end_date = date.today().isoformat()
 
 # --- Get stock data ---

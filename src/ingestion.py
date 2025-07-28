@@ -15,7 +15,7 @@ mlflow.set_experiment("Financial_Sentiment_Pipeline")  # Set experiment name
 # --- Configuration ---
 ticker = "^NSEI"
 query = "Nifty"
-start_date = "2025-07-01"
+start_date = "2025-07-15"
 end_date = date.today().isoformat()
 
 raw_dir = "data/raw"
