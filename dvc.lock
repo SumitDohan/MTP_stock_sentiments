@@ -34,13 +34,13 @@ stages:
     outs:
     - path: data/raw/ingestion_summary.json
       hash: md5
-      md5: aa8ce9e0e3d6baea50ca682983e8120f
+      md5: a346807a876661fbac9753241439891b
       size: 162
     - path: data/raw/news.json
       hash: md5
-      md5: 8cf70f8efe1ed12745e1afe3b9893b95
-      size: 99024
+      md5: dbe10b44af99786c65556bd4d52dd0e6
+      size: 99015
     - path: data/raw/stock.csv
       hash: md5
-      md5: 227cec4c385d34ae91fcd7f005385e66
-      size: 1338
+      md5: 8053b288225f13ef6888217a64acfb50
+      size: 1487
