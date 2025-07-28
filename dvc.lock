@@ -38,7 +38,7 @@ stages:
       size: 163
     - path: data/raw/news.json
       hash: md5
-      md5: b7f2635ca3f136f70e41f6798b4b17de
+      md5: 4929102541f8f566e1fe4a62d3a45c34
       size: 101851
     - path: data/raw/stock.csv
       hash: md5
