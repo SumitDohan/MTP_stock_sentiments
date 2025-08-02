@@ -1,0 +1,46 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocessing.py
+    deps:
+    - path: data/raw/news.json
+      hash: md5
+      md5: 0506a521d230d959b4ff33ead1c2d703
+      size: 98712
+    - path: data/raw/stock.csv
+      hash: md5
+      md5: 5291b8f7000811241be5d77ab401e435
+      size: 975
+    - path: src/preprocessing.py
+      hash: md5
+      md5: 48252fd4f1980c9f14656ace7a78214f
+      size: 2960
+    outs:
+    - path: data/plots/NSEI_plot.png
+      hash: md5
+      md5: bf4e0abe11335379ad59b36bfbff6210
+      size: 53835
+    - path: data/processed/NSEI_processed.csv
+      hash: md5
+      md5: a06425713527167e80607858163bf3d5
+      size: 1512
+  ingest_data:
+    cmd: python src/ingestion.py
+    deps:
+    - path: src/ingestion.py
+      hash: md5
+      md5: 9509fad76316d6c9f8e48a1dc8ce9a2e
+      size: 4104
+    outs:
+    - path: data/raw/ingestion_summary.json
+      hash: md5
+      md5: 4489c31e8d9429be794dc0b377c71175
+      size: 163
+    - path: data/raw/news.json
+      hash: md5
+      md5: 877439b5cd6b4d6014759f8c11f9add4
+      size: 102092
+    - path: data/raw/stock.csv
+      hash: md5
+      md5: 63b813af2413ee969b3be82b03894513
+      size: 991

@@ -1,0 +1,49 @@
+Step 10: Add Frontend UI (Streamlit)
+Optional UI using Streamlit.
+
+📄 app_streamlit.py
+python
+Copy
+Edit
+import streamlit as st
+import requests
+
+st.title("📈 Stock Movement Prediction")
+
+close = st.number_input("Close Price", value=22000.0)
+sentiment = st.slider("Sentiment Score", -5, 5, 0)
+
+if st.button("Predict"):
+    response = requests.post(
+        "http://localhost:8000/predict",
+        json={"Close": close, "sentiment": sentiment}
+    )
+    result = response.json()
+    st.success(f"Predicted Movement: {result['prediction']}")
+
+
+
+
+    Run:
+
+bash
+Copy
+Edit
+streamlit run app_streamlit.py
+
+
+
+
+
+
+Everything’s Ready!
+You now have a complete system:
+
+Component	Status
+Data pipeline	✅ Done
+ML model + MLflow	✅ Done
+FastAPI + Docker	✅ Done
+Unit tests + CI/CD	✅ Done
+Model Monitoring	✅ Done
+Prefect Pipeline	✅ Done
+Streamlit UI	✅ Done

@@ -1,0 +1,14 @@
+txt
+
+pandas
+yfinance
+transformers
+scikit-learn
+fastapi
+uvicorn
+mlflow
+prefect
+evidently
+requests
+python-dotenv
+torch

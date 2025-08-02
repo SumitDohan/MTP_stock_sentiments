@@ -1,0 +1,9 @@
+stages:
+  ingest_data:
+    cmd: python src/ingestion.py
+    deps:
+      - src/ingestion.py
+    outs:
+      - data/raw/stock.csv
+      - data/raw/news.json
+      - data/raw/ingestion_summary.json
