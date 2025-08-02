@@ -1,0 +1,104 @@
+# ========================================
+# Python
+# ========================================
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.log
+*.tmp
+*.bak
+*.swp
+*.DS_Store
+
+# ========================================
+# Virtual Environments (Conda, venv, pipenv)
+# ========================================
+env/
+venv/
+mtp/
+Lib/
+bin/
+Include/
+Scripts/
+
+# ========================================
+# Jupyter Notebook Checkpoints
+# ========================================
+.ipynb_checkpoints/
+
+# ========================================
+# VS Code settings
+# ========================================
+.vscode/
+
+# ========================================
+# DVC files and outputs
+# ========================================
+*.dvc
+.dvc/
+.cache/
+.dvc/cache/
+.dvc/tmp/
+
+# ========================================
+# MLflow
+# ========================================
+mlruns/
+src/mlruns/
+
+# ========================================
+# Data files and model artifacts
+# ========================================
+data/
+data/*
+data/raw/
+data/processed/
+src/data/
+src/data/*
+src/tmp/
+src/tmp/*
+*.csv
+*.json
+*.tsv
+*.xlsx
+*.parquet
+*.pkl
+*.joblib
+*.h5
+
+# ========================================
+# Reports, plots, results
+# ========================================
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.svg
+*.html
+*.md
+*.txt
+
+# ========================================
+# Backup & temp files
+# ========================================
+*.zip
+*.tar.gz
+*.tar
+*.rar
+*~
+backup_*/
+
+# ========================================
+# Docker & Build
+# ========================================
+__docker_build__/
+Dockerfile
+*.dockerignore
+
+# ========================================
+# OS-specific
+# ========================================
+Thumbs.db
+ehthumbs.db
+.DS_Store
+desktop.ini
