@@ -1,0 +1,29 @@
+[
+  {
+    "headline": "Nifty surges after Fed hints at rate pause",
+    "sentiment": "neutral",
+    "probabilities": {
+      "negative": 0.0002,
+      "neutral": 0.9997,
+      "positive": 0.0001
+    }
+  },
+  {
+    "headline": "Stock market crashes on inflation fears",
+    "sentiment": "positive",
+    "probabilities": {
+      "negative": 0.0,
+      "neutral": 0.0,
+      "positive": 1.0
+    }
+  },
+  {
+    "headline": "Investors remain cautious amid global slowdown",
+    "sentiment": "positive",
+    "probabilities": {
+      "negative": 0.0,
+      "neutral": 0.0,
+      "positive": 1.0
+    }
+  }
+]

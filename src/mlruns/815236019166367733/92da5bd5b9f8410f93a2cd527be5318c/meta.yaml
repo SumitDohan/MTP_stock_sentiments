@@ -1,0 +1,14 @@
+artifact_uri: file:D:/MTP/src/mlruns/815236019166367733/92da5bd5b9f8410f93a2cd527be5318c/artifacts
+end_time: 1752766157643
+entry_point_name: ''
+experiment_id: '815236019166367733'
+lifecycle_stage: active
+run_id: 92da5bd5b9f8410f93a2cd527be5318c
+run_name: TradingBotSentimentRun
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752766157439
+status: 3
+tags: []
+user_id: dohan

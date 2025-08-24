@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finbert-mlops
+  labels:
+    app: finbert-mlops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: finbert-mlops
+  template:
+    metadata:
+      labels:
+        app: finbert-mlops
+    spec:
+      containers:
+        - name: finbert-mlops
+          image: sumitdohan/finbert-mlops:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ENVIRONMENT
+              value: "production"
+            - name: MLFLOW_TRACKING_URI
+              value: "http://mlflow-service:5000"  # change to your MLflow endpoint
+            # - name: DVC_REMOTE
+            #   value: "s3://your-bucket/path"       # or other remote, currently commented out
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+          readinessProbe:
+            httpGet:
+              path: /health   # change to your health endpoint
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: finbert-service
+spec:
+  selector:
+    app: finbert-mlops
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+      # nodePort: 30080  # Optional static port for access

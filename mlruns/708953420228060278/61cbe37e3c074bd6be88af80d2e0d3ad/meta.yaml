@@ -1,0 +1,14 @@
+artifact_uri: file:D:/MTP/mlruns/708953420228060278/61cbe37e3c074bd6be88af80d2e0d3ad/artifacts
+end_time: 1752767226120
+entry_point_name: ''
+experiment_id: '708953420228060278'
+lifecycle_stage: active
+run_id: 61cbe37e3c074bd6be88af80d2e0d3ad
+run_name: Pipeline_Sentiment_Analysis
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752767225969
+status: 3
+tags: []
+user_id: dohan

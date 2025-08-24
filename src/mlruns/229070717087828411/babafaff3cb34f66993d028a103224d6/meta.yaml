@@ -1,0 +1,14 @@
+artifact_uri: file:D:/MTP/src/mlruns/229070717087828411/babafaff3cb34f66993d028a103224d6/artifacts
+end_time: 1752764390854
+entry_point_name: ''
+experiment_id: '229070717087828411'
+lifecycle_stage: active
+run_id: babafaff3cb34f66993d028a103224d6
+run_name: model_with_sentiment_analysis
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752764372266
+status: 3
+tags: []
+user_id: dohan

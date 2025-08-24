@@ -1,0 +1,85 @@
+✅ Run Tests
+Install pytest if not already:
+
+bash
+Copy
+Edit
+pip install pytest
+Then run:
+
+bash
+Copy
+Edit
+pytest tests/
+
+
+
+
+
+
+
+✅ Step 7: Add CI/CD with GitHub Actions
+📁 .github/workflows/ci.yml
+yaml
+Copy
+Edit
+name: CI - Stock Sentiment API
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: pytest tests/
+
+
+
+
+
+
+
+
+
+  Step 8: Model Drift Monitoring with Evidently
+📄 src/monitor.py
+python
+Copy
+Edit
+from evidently.report import Report
+from evidently.metric_preset import DataDriftPreset
+import pandas as pd
+
+def check_data_drift(reference_df, current_df):
+    report = Report(metrics=[DataDriftPreset()])
+    report.run(reference_data=reference_df, current_data=current_df)
+    report.save_html("drift_report.html")
+You can run this after deployment to detect drift in live data.    
+
+
+
+
+
+
+
+
+
+
+then goto src folder

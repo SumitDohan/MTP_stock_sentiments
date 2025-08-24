@@ -1,0 +1,118 @@
+Step 3: Build and Run Docker Locally
+Run these in PowerShell (in the project root):
+
+bash
+Copy
+Edit
+# Build the Docker image
+docker build -t stock-sentiment-api .
+
+# Run the container
+docker run -p 8000:8000 stock-sentiment-api
+
+
+
+
+ Step 4: Prepare for GCP Cloud Run Deployment
+🛠 Prerequisites
+ You must have a GCP project
+
+ You’ve installed and initialized the gcloud CLI:
+
+bash
+Copy
+Edit
+gcloud init
+gcloud auth login
+
+
+
+
+Build & Deploy to Cloud Run
+bash
+Copy
+Edit
+gcloud builds submit --tag gcr.io/<your-project-id>/stock-sentiment-api
+
+gcloud run deploy stock-sentiment-api \
+  --image gcr.io/<your-project-id>/stock-sentiment-api \
+  --platform managed \
+  --region asia-south1 \
+  --allow-unauthenticated
+
+
+
+
+
+
+ Add README.md (GitHub-ready)
+  # 📈 Stock Sentiment Prediction with News + MLOps
+
+This project predicts stock movement (rise/fall) using financial news sentiment and stock price data.
+
+### 🔧 Stack
+
+- Python, FastAPI
+- MLflow (for experiment tracking)
+- Transformers (FinBERT)
+- Docker
+- GCP Cloud Run (deployment)
+- Prefect (optional pipeline orchestration)
+
+### 🚀 Run Locally
+
+```bash
+# Create venv + activate
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Train the model
+python main.py
+
+# Run API server
+uvicorn src.app:app --reload
+
+
+
+
+
+
+
+
+
+
+
+Run with Docker
+bash
+Copy
+Edit
+docker build -t stock-sentiment-api .
+docker run -p 8000:8000 stock-sentiment-api
+☁️ Deploy to GCP Cloud Run
+bash
+Copy
+Edit
+gcloud builds submit --tag gcr.io/<your-project-id>/stock-sentiment-api
+gcloud run deploy stock-sentiment-api --image gcr.io/<your-project-id>/stock-sentiment-api --platform 
+
+
+
+
+
+
+
+
+
+
+
+✅ Final Checklist
+Component	Status
+Data Pipeline	✅ Complete
+ML Model + MLflow	✅ Logged
+FastAPI Serving	✅ Ready
+Dockerfile	✅ Done
+GCP Deployment	✅ Guided
+README	✅ Done

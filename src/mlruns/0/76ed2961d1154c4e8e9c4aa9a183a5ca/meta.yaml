@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/MTP/src/mlruns/0/76ed2961d1154c4e8e9c4aa9a183a5ca/artifacts
+end_time: 1752687088402
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 76ed2961d1154c4e8e9c4aa9a183a5ca
+run_name: data_ingestion
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752687088273
+status: 3
+tags: []
+user_id: dohan

@@ -1,0 +1,14 @@
+artifact_uri: file:D:/MTP/src/mlruns/229070717087828411/ae36d87443484a92b69e57bc9583103a/artifacts
+end_time: 1752764240546
+entry_point_name: ''
+experiment_id: '229070717087828411'
+lifecycle_stage: active
+run_id: ae36d87443484a92b69e57bc9583103a
+run_name: preprocessing
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752764232417
+status: 3
+tags: []
+user_id: dohan

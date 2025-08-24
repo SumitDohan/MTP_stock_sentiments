@@ -1,0 +1,14 @@
+artifact_uri: file:D:/MTP/mlruns/708953420228060278/ec7c231680b048728dd9d8cfe4d7cb9d/artifacts
+end_time: 1755931011125
+entry_point_name: ''
+experiment_id: '708953420228060278'
+lifecycle_stage: active
+run_id: ec7c231680b048728dd9d8cfe4d7cb9d
+run_name: Pipeline_Sentiment_Analysis
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755931011101
+status: 3
+tags: []
+user_id: sweta

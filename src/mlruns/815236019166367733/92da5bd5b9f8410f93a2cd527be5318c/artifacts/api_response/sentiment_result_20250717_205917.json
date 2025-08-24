@@ -1,0 +1,32 @@
+[
+  {
+    "headline": "Nifty surges to all-time high amid positive global cues",
+    "sentiment": "neutral",
+    "probabilities": {
+      "negative": 0.0,
+      "neutral": 1.0,
+      "positive": 0.0
+    },
+    "sentiment_score": 0.0
+  },
+  {
+    "headline": "Market uncertain ahead of interest rate decisions",
+    "sentiment": "positive",
+    "probabilities": {
+      "negative": 0.0028,
+      "neutral": 0.0001,
+      "positive": 0.9971
+    },
+    "sentiment_score": 0.9943
+  },
+  {
+    "headline": "Investors show strong interest in blue-chip stocks",
+    "sentiment": "neutral",
+    "probabilities": {
+      "negative": 0.0,
+      "neutral": 1.0,
+      "positive": 0.0
+    },
+    "sentiment_score": 0.0
+  }
+]

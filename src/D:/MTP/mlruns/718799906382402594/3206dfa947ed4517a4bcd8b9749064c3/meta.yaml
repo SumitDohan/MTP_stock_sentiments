@@ -1,0 +1,14 @@
+artifact_uri: file:///home/sweta/MTP/src/D:/MTP/mlruns/718799906382402594/3206dfa947ed4517a4bcd8b9749064c3/artifacts
+end_time: 1755929962832
+entry_point_name: ''
+experiment_id: '718799906382402594'
+lifecycle_stage: active
+run_id: 3206dfa947ed4517a4bcd8b9749064c3
+run_name: data_ingestion
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755929962802
+status: 3
+tags: []
+user_id: sweta
