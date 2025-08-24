@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -19,23 +19,27 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
+      # Step 3: Upgrade pip, setuptools, wheel
+      - name: Upgrade pip, setuptools, wheel
         run: |
           python3 -m pip install --upgrade pip setuptools wheel
-          pip install pyyaml==6.0
-          pip install -r requirements.txt
-          pip install pytest dvc mlflow-skinny docker-compose
 
-      # Step 4: Run tests (optional)
+      # Step 4: Install dependencies with compatibility fixes
+      - name: Install dependencies
+        run: |
+          # Use --use-deprecated=legacy-resolver for older packages compatibility
+          python3 -m pip install --use-deprecated=legacy-resolver -r requirements.txt
+          python3 -m pip install pytest dvc mlflow docker-compose
+
+      # Step 5: Run tests (optional)
       - name: Run tests
         run: |
           echo "Running tests..."
           pytest || echo "No tests found, skipping."
 
-      # Step 5: Run DVC + MLflow pipeline
+      # Step 6: Run DVC + MLflow pipeline
       - name: Run DVC + MLflow pipeline
         run: |
           dvc pull
@@ -43,26 +47,26 @@ jobs:
           python3 preprocessing.py
           python3 model.py
 
-      # Step 6: Build Docker image
+      # Step 7: Build Docker image
       - name: Build Docker image
         run: docker build -t sumitdohanropar/mtp:latest .
 
-      # Step 7: Log in to Docker Hub
+      # Step 8: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 8: Push Docker image
+      # Step 9: Push Docker image
       - name: Push Docker image
         run: docker push sumitdohanropar/mtp:latest
 
-      # Step 9: Run Docker Compose (App + MLflow)
+      # Step 10: Run Docker Compose (App + MLflow)
       - name: Run Docker Compose
         run: docker-compose up -d
 
-      # Step 10: Wait for MLflow and FastAPI to be ready
+      # Step 11: Wait for MLflow and FastAPI to be ready
       - name: Wait for services
         run: |
           echo "Waiting for MLflow on port 5001 and FastAPI on port 8000..."
