@@ -2,16 +2,25 @@
 # Python
 # ========================================
 __pycache__/
-*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
 *.egg-info/
 *.log
 *.tmp
 *.bak
 *.swp
-*.DS_Store
 
 # ========================================
-# Virtual Environments (Conda, venv, pipenv)
+# Notebooks
+# ========================================
+*.ipynb
+.ipynb_checkpoints/
+
+# ========================================
+# Virtual Environments
 # ========================================
 env/
 venv/
@@ -20,20 +29,51 @@ Lib/
 bin/
 Include/
 Scripts/
+.venv/
 
 # ========================================
-# Jupyter Notebook Checkpoints
+# Environment / Secrets
 # ========================================
-.ipynb_checkpoints/
+.env
+*.secret
+*.key
 
 # ========================================
-# VS Code settings
+# Git
 # ========================================
-.vscode/
+.git
+.gitignore
 
 # ========================================
-# DVC files and outputs
+# Data & Artifacts
 # ========================================
+data/
+datasets/
+data/raw/
+data/processed/
+src/data/
+src/tmp/
+checkpoints/
+models/
+*.pt
+*.pth
+*.h5
+*.pkl
+*.joblib
+*.tar.gz
+*.zip
+*.rar
+*.csv
+*.json
+*.tsv
+*.xlsx
+*.parquet
+
+# ========================================
+# MLflow & DVC
+# ========================================
+mlruns/
+src/mlruns/
 *.dvc
 .dvc/
 .cache/
@@ -41,33 +81,7 @@ Scripts/
 .dvc/tmp/
 
 # ========================================
-# MLflow
-# ========================================
-mlruns/
-src/mlruns/
-
-# ========================================
-# Data files and model artifacts
-# ========================================
-data/
-data/*
-data/raw/
-data/processed/
-src/data/
-src/data/*
-src/tmp/
-src/tmp/*
-*.csv
-*.json
-*.tsv
-*.xlsx
-*.parquet
-*.pkl
-*.joblib
-*.h5
-
-# ========================================
-# Reports, plots, results
+# Reports, Plots, Results
 # ========================================
 *.png
 *.jpg
@@ -79,14 +93,9 @@ src/tmp/*
 *.txt
 
 # ========================================
-# Backup & temp files
+# VS Code
 # ========================================
-*.zip
-*.tar.gz
-*.tar
-*.rar
-*~
-backup_*/
+.vscode/
 
 # ========================================
 # Docker & Build
@@ -102,3 +111,9 @@ Thumbs.db
 ehthumbs.db
 .DS_Store
 desktop.ini
+
+# ========================================
+# Backup
+# ========================================
+*~
+backup_*/
