@@ -11,25 +11,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.12
+      # Step 2: Set up Python 3.12
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest dvc mlflow docker-compose
+          pip install pytest dvc mlflow docker-compose curl
 
-      - name: Run tests (optional)
+      # Step 4: Run tests (optional)
+      - name: Run tests
         run: |
           echo "Running tests..."
           pytest || echo "No tests found, skipping."
 
+      # Step 5: Run DVC + MLflow pipeline
       - name: Run DVC + MLflow pipeline
         run: |
           dvc pull
@@ -37,25 +42,32 @@ jobs:
           python3 preprocessing.py
           python3 model.py
 
+      # Step 6: Build Docker image
       - name: Build Docker image
         run: docker build -t sumitdohanropar/mtp:latest .
 
+      # Step 7: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # Step 8: Push Docker image
       - name: Push Docker image
         run: docker push sumitdohanropar/mtp:latest
 
-      - name: Run Docker Compose (App + MLflow)
+      # Step 9: Run Docker Compose (App + MLflow)
+      - name: Run Docker Compose
         run: docker-compose up -d
 
-      - name: Wait for MLflow to be ready
+      # Step 10: Wait for MLflow and FastAPI to be ready
+      - name: Wait for services
         run: |
-          echo "Waiting for MLflow to start on port 5001..."
-          until curl -s http://localhost:5001 >/dev/null; do
-            sleep 5
-          done
-          echo "MLflow is ready!"
+          echo "Waiting for MLflow on port 5001 and FastAPI on port 8000..."
+          timeout 120 bash -c '
+            until curl -s http://localhost:5001 >/dev/null && curl -s http://localhost:8000 >/dev/null; do
+              sleep 5
+            done
+          '
+          echo "Both MLflow and FastAPI are ready!"
