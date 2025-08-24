@@ -1,1 +1,5 @@
-http://localhost:5001
+mlflow:
+  image: ghcr.io/mlflow/mlflow:latest
+  container_name: mlflow_server
+  ports:
+    - "5001:5000"  # external port 5001 -> container port 5000

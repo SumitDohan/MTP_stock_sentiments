@@ -24,9 +24,11 @@ jobs:
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install -y curl
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest dvc mlflow docker-compose curl
+          pip install pytest dvc mlflow docker-compose
 
       # Step 4: Run tests (optional)
       - name: Run tests
