@@ -22,11 +22,12 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Step 3: Upgrade pip, setuptools, wheel, and pre-install Cython
-      - name: Upgrade pip, setuptools, wheel, Cython
+      # Step 3: Upgrade pip, setuptools, wheel, and pre-install Cython + PyYAML
+      - name: Upgrade pip, setuptools, wheel, Cython, PyYAML
         run: |
           python3 -m pip install --upgrade pip setuptools wheel
-          python3 -m pip install cython==0.29.36 "pyyaml<6.0.2"
+          # Pre-install Cython + PyYAML (force wheels only)
+          pip install cython==0.29.36 "pyyaml<6.0.2" --only-binary=:all:
 
       # Step 4: Install dependencies with compatibility fixes
       - name: Install dependencies
