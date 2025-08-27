@@ -11,7 +11,7 @@ from datetime import date
 api_key = "c30d7a7f8b784290bf8106ae22ef4a2c"
 ticker = "^NSEI"
 query = "Nifty50"
-start_date = "2025-07-15"
+start_date = "2025-08-20"
 end_date = date.today().isoformat()
 
 # --- Get stock data ---
@@ -120,8 +120,9 @@ def run_sentiment_analysis_and_train(news_json, stock_df):
         print("⚠️ Mixed signals — proceed with CAUTION.")
 
     # --- MLflow Logging ---
-    mlflow.set_tracking_uri("file:D:/MTP/mlruns")
+    mlflow.set_tracking_uri("file:/home/sweta/MTP/mlruns")
     mlflow.set_experiment("Financial_Sentiment_Pipeline")
+
 
     with mlflow.start_run(run_name="Pipeline_Sentiment_Analysis"):
         mlflow.log_param("ticker", ticker)

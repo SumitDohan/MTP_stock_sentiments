@@ -9,13 +9,14 @@ from newsapi import NewsApiClient
 import mlflow
 
 # --- MLflow Setup ---
-mlflow.set_tracking_uri("file:D:/MTP/mlruns")
-mlflow.set_experiment("Financial_Sentiment_Pipeline")  # Set experiment name
+mlflow.set_tracking_uri("file:/home/sweta/MTP/mlruns")
+mlflow.set_experiment("Financial_Sentiment_Pipeline")
+
 
 # --- Configuration ---
 ticker = "^NSEI"
 query = "Nifty"
-start_date = "2025-07-15"
+start_date = "2025-08-20"
 end_date = date.today().isoformat()
 
 raw_dir = "data/raw"

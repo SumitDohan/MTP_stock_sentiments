@@ -7,9 +7,9 @@ import mlflow
 from datetime import date
 
 # --- MLflow Setup ---
-mlflow.set_tracking_uri("file:D:/MTP/mlruns")
-  # Ensures local logging
-mlflow.set_experiment("Financial_Sentiment_Pipeline")  # Group under a named experiment
+mlflow.set_tracking_uri("file:/home/sweta/MTP/mlruns")
+mlflow.set_experiment("Financial_Sentiment_Pipeline")
+
 
 # --- Directory Setup ---
 RAW_PATH = "data/raw"
