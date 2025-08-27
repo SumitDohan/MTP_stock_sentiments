@@ -2,10 +2,10 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
-  workflow_dispatch:   # 👈 allows manual trigger from GitHub UI
+    branches: [ "main" ]
+  workflow_dispatch: # manual trigger
 
 jobs:
   build:
@@ -22,28 +22,38 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Step 3: Upgrade pip, setuptools, wheel, and pre-install Cython + PyYAML
-      - name: Upgrade pip, setuptools, wheel, Cython, PyYAML
-        run: |
-          python3 -m pip install --upgrade pip setuptools wheel
-          # Pre-install Cython + PyYAML (force wheels only)
-          pip install cython==0.29.36 "pyyaml<6.0.2" --only-binary=:all:
+      # Step 3: Cache pip dependencies (speeds up builds)
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-      # Step 4: Install dependencies with compatibility fixes
+      # Step 4: Upgrade pip, setuptools, wheel
+      - name: Upgrade pip, setuptools, wheel
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+
+      # Step 5: Pre-install Cython + PyYAML (fix cython_sources error)
+      - name: Pre-install Cython + PyYAML
+        run: |
+          pip install "cython<3" "pyyaml<6.0.2" --only-binary=:all:
+
+      # Step 6: Install dependencies
       - name: Install dependencies
         run: |
-          # Install project requirements
           pip install --use-deprecated=legacy-resolver -r requirements.txt
-          # Extra tools
           pip install pytest dvc mlflow docker-compose
 
-      # Step 5: Run tests (optional)
+      # Step 7: Run tests
       - name: Run tests
         run: |
           echo "Running tests..."
           pytest || echo "No tests found, skipping."
 
-      # Step 6: Run DVC + MLflow pipeline
+      # Step 8: Run DVC + MLflow pipeline
       - name: Run DVC + MLflow pipeline
         run: |
           dvc pull
@@ -51,26 +61,26 @@ jobs:
           python3 preprocessing.py
           python3 model.py
 
-      # Step 7: Build Docker image
+      # Step 9: Build Docker image
       - name: Build Docker image
         run: docker build -t sumitdohanropar/mtp:latest .
 
-      # Step 8: Log in to Docker Hub
+      # Step 10: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 9: Push Docker image
+      # Step 11: Push Docker image
       - name: Push Docker image
         run: docker push sumitdohanropar/mtp:latest
 
-      # Step 10: Run Docker Compose (App + MLflow)
+      # Step 12: Run Docker Compose (App + MLflow)
       - name: Run Docker Compose
         run: docker-compose up -d
 
-      # Step 11: Wait for MLflow and FastAPI to be ready
+      # Step 13: Wait for MLflow and FastAPI to be ready
       - name: Wait for services
         run: |
           echo "Waiting for MLflow on port 5001 and FastAPI on port 8000..."
