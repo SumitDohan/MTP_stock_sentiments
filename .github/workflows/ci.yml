@@ -23,15 +23,14 @@ jobs:
           python-version: "3.12"
 
       # Step 3: Upgrade pip, setuptools, wheel, and pre-install Cython
-      - name: Upgrade pip, setuptools, wheel, cython
+      - name: Upgrade pip, setuptools, wheel, Cython
         run: |
-          python3 -m pip install --upgrade pip setuptools wheel cython
+          python3 -m pip install --upgrade pip setuptools wheel
+          python3 -m pip install cython==0.29.36 "pyyaml<6.0.2"
 
       # Step 4: Install dependencies with compatibility fixes
       - name: Install dependencies
         run: |
-          # Force PyYAML to install from prebuilt wheels (avoid source build issues)
-          pip install --only-binary :all: pyyaml
           # Install project requirements
           pip install --use-deprecated=legacy-resolver -r requirements.txt
           # Extra tools
