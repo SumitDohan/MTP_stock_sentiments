@@ -5,6 +5,7 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  workflow_dispatch:   # 👈 allows manual trigger from GitHub UI
 
 jobs:
   build:
@@ -21,17 +22,20 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Step 3: Upgrade pip, setuptools, wheel
-      - name: Upgrade pip, setuptools, wheel
+      # Step 3: Upgrade pip, setuptools, wheel, and pre-install Cython
+      - name: Upgrade pip, setuptools, wheel, cython
         run: |
-          python3 -m pip install --upgrade pip setuptools wheel
+          python3 -m pip install --upgrade pip setuptools wheel cython
 
       # Step 4: Install dependencies with compatibility fixes
       - name: Install dependencies
         run: |
-          # Use --use-deprecated=legacy-resolver for older packages compatibility
-          python3 -m pip install --use-deprecated=legacy-resolver -r requirements.txt
-          python3 -m pip install pytest dvc mlflow docker-compose
+          # Force PyYAML to install from prebuilt wheels (avoid source build issues)
+          pip install --only-binary :all: pyyaml
+          # Install project requirements
+          pip install --use-deprecated=legacy-resolver -r requirements.txt
+          # Extra tools
+          pip install pytest dvc mlflow docker-compose
 
       # Step 5: Run tests (optional)
       - name: Run tests
