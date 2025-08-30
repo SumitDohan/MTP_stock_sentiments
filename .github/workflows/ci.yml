@@ -39,7 +39,7 @@ jobs:
       # Step 5: Pre-install Cython + PyYAML (fix cython_sources error)
       - name: Pre-install Cython + PyYAML
         run: |
-          pip install "cython<3" "pyyaml>6.0.2" --only-binary=:all:
+          pip install "cython<3" "pyyaml==6.0.2" --only-binary=:all:
 
       # Step 6: Install dependencies
       - name: Install dependencies
