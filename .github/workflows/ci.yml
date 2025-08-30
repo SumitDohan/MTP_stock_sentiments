@@ -36,25 +36,20 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools wheel
 
-      # Step 5: Pre-install Cython + PyYAML (fix cython_sources error)
-      - name: Pre-install Cython + PyYAML
-        run: |
-          pip install --only-binary=:all: pyyaml==6.0.2
-
-
-      # Step 6: Install dependencies
+      # Step 5: Install dependencies (with fixed PyYAML + Cython)
       - name: Install dependencies
         run: |
-          pip install --use-deprecated=legacy-resolver -r requirements.txt
+          pip install "cython<3" "pyyaml==6.0.1"
+          pip install -r requirements.txt
           pip install pytest dvc mlflow docker-compose
 
-      # Step 7: Run tests
+      # Step 6: Run tests
       - name: Run tests
         run: |
           echo "Running tests..."
           pytest || echo "No tests found, skipping."
 
-      # Step 8: Run DVC + MLflow pipeline
+      # Step 7: Run DVC + MLflow pipeline
       - name: Run DVC + MLflow pipeline
         run: |
           dvc pull
@@ -62,26 +57,26 @@ jobs:
           python3 preprocessing.py
           python3 model.py
 
-      # Step 9: Build Docker image
+      # Step 8: Build Docker image
       - name: Build Docker image
         run: docker build -t sumitdohanropar/mtp:latest .
 
-      # Step 10: Log in to Docker Hub
+      # Step 9: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 11: Push Docker image
+      # Step 10: Push Docker image
       - name: Push Docker image
         run: docker push sumitdohanropar/mtp:latest
 
-      # Step 12: Run Docker Compose (App + MLflow)
+      # Step 11: Run Docker Compose (App + MLflow)
       - name: Run Docker Compose
         run: docker-compose up -d
 
-      # Step 13: Wait for MLflow and FastAPI to be ready
+      # Step 12: Wait for MLflow and FastAPI to be ready
       - name: Wait for services
         run: |
           echo "Waiting for MLflow on port 5001 and FastAPI on port 8000..."
