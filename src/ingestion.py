@@ -4,7 +4,7 @@ import json
 import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
-from datetime import date
+from datetime import date, timedelta
 from newsapi import NewsApiClient
 import mlflow
 
@@ -12,12 +12,12 @@ import mlflow
 mlflow.set_tracking_uri("file:/home/sweta/MTP/mlruns")
 mlflow.set_experiment("Financial_Sentiment_Pipeline")
 
-
 # --- Configuration ---
-ticker = "^NSEI"
+PRIMARY_TICKER = "^NSEI"        # Nifty 50 index
+FALLBACK_TICKER = "NSEI.NS"    # Alternate Yahoo Finance ticker
 query = "Nifty"
-start_date = "2025-08-20"
-end_date = date.today().isoformat()
+start_date = "2025-08-25"
+end_date = (date.today() - timedelta(days=1)).isoformat()
 
 raw_dir = "data/raw"
 os.makedirs(raw_dir, exist_ok=True)
@@ -27,10 +27,15 @@ news_json_path = os.path.join(raw_dir, "news.json")
 
 # --- Fetch stock data ---
 def fetch_stock_data():
-    print(f"📥 Downloading stock data for {ticker} from {start_date} to {end_date}")
-    df = yf.download(ticker, start=start_date, end=end_date)
+    print(f"📥 Downloading stock data for {PRIMARY_TICKER} from {start_date} to {end_date}")
+    df = yf.download(PRIMARY_TICKER, start=start_date, end=end_date)
+    
     if df.empty:
-        raise ValueError("⚠️ No stock data returned.")
+        print(f"⚠️ No data returned for {PRIMARY_TICKER}. Trying fallback ticker {FALLBACK_TICKER}...")
+        df = yf.download(FALLBACK_TICKER, start=start_date, end=end_date)
+        if df.empty:
+            raise ValueError("❌ Still no stock data returned. Check ticker or date range.")
+    
     df.to_csv(stock_csv_path)
     print(f"✅ Stock data saved to {stock_csv_path}")
     return stock_csv_path
@@ -39,6 +44,7 @@ def fetch_stock_data():
 def fetch_news_data():
     print(f"📰 Fetching news articles about '{query}' from NewsAPI")
     newsapi = NewsApiClient(api_key="c30d7a7f8b784290bf8106ae22ef4a2c")
+    
     try:
         articles = newsapi.get_everything(
             q=query,
@@ -48,7 +54,8 @@ def fetch_news_data():
             page_size=100,
         )
         if articles.get("status") != "ok" or not articles.get("articles"):
-            raise ValueError("⚠️ No articles returned or API error.")
+            print("⚠️ No articles returned or API error. Logging empty list.")
+            articles = {"status": "ok", "articles": []}
     except Exception as e:
         print(f"❌ Failed to fetch news: {e}")
         articles = {"status": "error", "articles": []}
@@ -66,7 +73,7 @@ def log_with_mlflow(stock_path, news_path):
         mlflow.log_artifact(news_path, artifact_path="raw_data")
 
         # Log parameters
-        mlflow.log_param("ticker", ticker)
+        mlflow.log_param("ticker", PRIMARY_TICKER)
         mlflow.log_param("query", query)
         mlflow.log_param("start_date", start_date)
         mlflow.log_param("end_date", end_date)
@@ -86,7 +93,7 @@ def log_with_mlflow(stock_path, news_path):
 
         # Log summary JSON
         summary = {
-            "ticker": ticker,
+            "ticker": PRIMARY_TICKER,
             "query": query,
             "start_date": start_date,
             "end_date": end_date,

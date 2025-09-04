@@ -10,7 +10,6 @@ from datetime import date
 mlflow.set_tracking_uri("file:/home/sweta/MTP/mlruns")
 mlflow.set_experiment("Financial_Sentiment_Pipeline")
 
-
 # --- Directory Setup ---
 RAW_PATH = "data/raw"
 PROCESSED_PATH = "data/processed"
@@ -22,9 +21,10 @@ os.makedirs(PLOTS_PATH, exist_ok=True)
 # --- Load stock data ---
 def load_stock_data(filepath):
     print("📂 Loading stock.csv from raw folder...")
-    df = pd.read_csv(filepath, index_col=0, parse_dates=True)
+    df = pd.read_csv(filepath, parse_dates=True, index_col=0)
     df.index.name = "Date"
     df["Close"] = pd.to_numeric(df["Close"], errors="coerce")
+    df = df.ffill().bfill()  # fill missing values
     return df
 
 # --- Load news data ---
@@ -36,11 +36,11 @@ def load_news_data(filepath):
 
 # --- Preprocess stock data ---
 def preprocess_stock_data(df):
-    df = df.ffill()
-    df["Daily Return"] = df["Close"].pct_change()
-    df["SMA_7"] = df["Close"].rolling(window=7).mean()
-    df["SMA_21"] = df["Close"].rolling(window=21).mean()
-    df["Volatility"] = df["Close"].rolling(window=7).std()
+    df = df.copy()
+    df["Daily Return"] = df["Close"].pct_change().fillna(0)
+    df["SMA_7"] = df["Close"].rolling(window=7).mean().fillna(method="bfill")
+    df["SMA_21"] = df["Close"].rolling(window=21).mean().fillna(method="bfill")
+    df["Volatility"] = df["Close"].rolling(window=7).std().fillna(0)
     return df
 
 # --- Plotting function ---
@@ -56,9 +56,9 @@ def plot_stock(df, ticker):
     plt.grid(True)
     plt.xticks(rotation=45)
     plt.tight_layout()
-    
+
     plot_file = os.path.join(PLOTS_PATH, f"{ticker}_plot.png")
-    plt.savefig(plot_file)
+    plt.savefig(plot_file, dpi=150)
     plt.close()
     return plot_file
 
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     ticker = "NSEI"
 
     with mlflow.start_run(run_name="preprocessing"):
-        # --- Load ---
+        # --- Load data ---
         stock_df = load_stock_data(stock_file)
         news_data = load_news_data(news_file)
 
@@ -83,7 +83,7 @@ if __name__ == "__main__":
         plot_path = plot_stock(processed_df, ticker)
         mlflow.log_artifact(plot_path, artifact_path="plots")
 
-        # --- Log news ---
+        # --- Log raw news ---
         mlflow.log_artifact(news_file, artifact_path="news_raw")
 
         print("✅ Preprocessing complete and artifacts logged to MLflow.")
